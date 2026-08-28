@@ -1,0 +1,85 @@
+#include<iostream>
+#include<iomanip>
+#include<cmath>
+using namespace std;
+int main()
+{
+	cout.precision(5);
+	cout.setf(ios::fixed);
+	int i,j,k,n;
+	double a[100][100];
+	cout<<"enter the order of the matrix"<<endl;
+	cin>>n;
+	cout<<"enter the elements"<<endl;
+	for(i=0;i<n;i++)
+	for(j=0;j<n;j++)
+	cin>>a[i][j];
+	//augmented matrix
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<2*n;j++)
+		{
+			if(j==(i+1))
+			a[i][j]=1;
+		}
+	}
+	//pivotise aumented matrix
+	for(i=0;i<n;i++)
+	for(k=i+1;k<n;k++)
+	if(abs(a[i][i])<abs(a[i][j]))
+	{
+	for(j=0;j<2*n;j++)
+	{
+	double temp=a[i][j];
+	a[i][j]=a[k][j];
+	a[k][j]=temp;	
+	}
+    } 
+	cout<<"augmented matrix after pivotisation"<<endl;
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n*2;j++)
+		{
+		cout<<a[i][j]<<setw(10);
+	    }
+	cout<<"\n";
+    }
+    //convert tthe left matrix into the identity matrix
+    for(i=0;i<n;i++){
+		for(k=0;k<2*n;k++)
+		{
+			if(k!=i)
+		{
+			double temp=a[k][i]/a[i][i];
+			for(j=0;j<n*2;j++)
+			a[k][j]=a[k][j]-temp*a[i][j];
+		}
+	    }
+	}
+	//divided row by 
+	for(i=0;i<n;i++)
+	{
+		double temp=a[i][i];
+		if(temp==0)
+		{
+			cout<<"doesn't have an inverse"<<endl;
+			return 0;
+		}
+		else
+		{
+			for(j=0;j<n*2;j++)
+			a[i][j]=a[i][j]/temp;	
+		}
+		cout<<"the required inverse is"<<endl;
+		for(i=0;i<n;i++)
+		{
+			for(j=n;j<2*n;j++)
+			{
+				cout<<a[i][j]<<setw(10);
+		    }
+			cout<<"\n";	
+		}
+    }
+    
+return 0;
+}
